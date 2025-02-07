@@ -9,8 +9,26 @@ import { PokemonCard } from "./PokemonCard";
 // Utility function to extract Pokémon ID from the URL
 
 const PokemonList = () => {
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    usePokemonScroll();
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isError,
+    error,
+  } = usePokemonScroll();
+
+  if (isError) {
+    console.error("Error with Pokemon API:", error);
+
+    return (
+      <Box textAlign="center" py={4}>
+        <Typography variant="h6" color="error">
+          Failed to load Pokémon. Please try again later.
+        </Typography>
+      </Box>
+    );
+  }
 
   // @ts-ignore
   // TOOD: Fix if there's time

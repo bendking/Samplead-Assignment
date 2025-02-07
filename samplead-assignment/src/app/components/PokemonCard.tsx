@@ -6,6 +6,7 @@ import {
   CircularProgress,
   Typography,
   Avatar,
+  Stack,
 } from "@mui/material";
 
 interface PokemonCard {
@@ -35,20 +36,28 @@ export const PokemonCard = ({ pokemon }: PokemonCard) => {
       }}
     >
       <CardContent>
-        <Avatar
-          alt={pokemon.name}
-          src={pokemonImageUrl}
-          sx={{ width: 96, height: 96, mx: "auto", mb: 1 }}
-        />
-        <Typography
-          variant="h6"
-          sx={{
-            textTransform: "capitalize",
-            fontWeight: "medium",
-          }}
-        >
-          {pokemon.name}
-        </Typography>
+        <Stack alignItems="center">
+          <Avatar
+            alt={pokemon.name}
+            src={pokemonImageUrl}
+            sx={{ width: 96, height: 96, mx: "auto", mb: 1 }}
+          />
+          <Typography
+            variant="h5"
+            sx={{
+              textTransform: "capitalize",
+              fontWeight: "medium",
+            }}
+          >
+            {pokemon.name}
+          </Typography>
+          <Stack direction="row" gap={1}>
+            <Typography variant="body1" sx={{ fontWeight: "medium" }}>
+              ID
+            </Typography>
+            <Typography>{pokemonId}</Typography>
+          </Stack>
+        </Stack>
       </CardContent>
     </Card>
   );
