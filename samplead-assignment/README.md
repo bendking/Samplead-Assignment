@@ -27,3 +27,5 @@ I decided to use an infinite scroll list of cards instead of a table because I t
 Unfortunately, the API does not have a free text search function so the only way to look for a pokemon is scrolling until you see it. An alternative woudld have been to load all of the pokemons at the start, but that is bad practice for large data-sets.
 
 Of course, I could have also implemented a psuedo-search where the user has to input the exact name of a pokemon and have its dialog loaded up, but I don't think that would make for particualrly good UX.
+
+Finally, I've never used React-query before, so I couldn't figure out the typing in a reasonable time (the documentation isn't very helpful in this regard) and therefore resorted to using '@ts-ignore'.
