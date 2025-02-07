@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import pokeClient from "@/app/utils/pokeClient";
-import { PokemonDetail } from "@/app/types/PokemonDetails";
+import { PokemonDetails } from "../types/PokemonDetails";
 
-const fetchPokemonDetail = async (pokemonName: string): Promise<PokemonDetail> => {
-  const { data } = await pokeClient().get<PokemonDetail>(`/pokemon/${pokemonName}`);
+const fetchPokemonDetail = async (pokemonName: string): Promise<PokemonDetails> => {
+  const { data } = await pokeClient().get<PokemonDetails>(`/pokemon/${pokemonName}`);
   return data;
 };
 

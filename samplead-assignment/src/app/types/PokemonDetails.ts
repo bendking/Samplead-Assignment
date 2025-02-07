@@ -1,5 +1,3 @@
-// types/PokemonDetail.ts
-
 export interface PokemonSpecies {
     name: string;
     url: string;
@@ -18,7 +16,7 @@ export interface PokemonSpecies {
     };
   }
   
-  export interface PokemonDetail {
+  export interface PokemonDetails {
     species: PokemonSpecies;
     forms: PokemonForm[];
     types: PokemonType[];

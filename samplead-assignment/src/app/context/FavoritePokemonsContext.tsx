@@ -31,6 +31,7 @@ export const FavoritePokemonsProvider = ({
       const stored = localStorage.getItem(FAVORITES_KEY);
       return stored ? (JSON.parse(stored) as Favorites) : {};
     }
+
     return {};
   });
 
@@ -41,11 +42,13 @@ export const FavoritePokemonsProvider = ({
   const toggleFavorite = (pokemonName: string) => {
     setFavorites((prev) => {
       const newFavorites = { ...prev };
+
       if (newFavorites[pokemonName]) {
         delete newFavorites[pokemonName];
       } else {
         newFavorites[pokemonName] = true;
       }
+
       return newFavorites;
     });
   };
@@ -59,10 +62,12 @@ export const FavoritePokemonsProvider = ({
 
 export const useFavoritePokemons = () => {
   const context = useContext(FavoritePokemonsContext);
+
   if (!context) {
     throw new Error(
       "useFavoritePokemons must be used within a FavoritePokemonsProvider"
     );
   }
+
   return context;
 };

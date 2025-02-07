@@ -13,9 +13,11 @@ const fetchPokemons = async ({
   pageParam
 }: QueryFunctionContext<["pokemons"], string>): Promise<PokemonResponse> => {
   const { data } = await pokeClient().get<PokemonResponse>(pageParam);
+ 
   return data;
 };
 
+// TODO: Fix typing if there's time left
 export const usePokemonScroll = () => {
   return useInfiniteQuery<PokemonResponse, Error, Pokemon[], ["pokemons"], string>({
     queryKey: ["pokemons"],

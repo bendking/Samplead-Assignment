@@ -1,6 +1,7 @@
 ## Loading the app
 
 ```bash
+cd samplead-assignment
 npm i
 npm run dev
 ```
@@ -17,6 +18,7 @@ Stack Overflow
 MaterialUI
 React-Query
 Axios
+react-infinite-scroll-component
 
 ## Design Choices
 

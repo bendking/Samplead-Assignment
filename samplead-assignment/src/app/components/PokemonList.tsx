@@ -15,7 +15,7 @@ const PokemonList = () => {
   const [selectedPokemon, setSelectedPokemon] = useState<Pokemon | null>(null);
 
   // @ts-ignore
-  // TODO: Fix if there's time
+  // TODO: Fix typing if there's time left
   const pokemons: Pokemon[] = data?.pages.flatMap((page) => page.results) ?? [];
 
   return (
@@ -51,7 +51,7 @@ const PokemonList = () => {
           hasMore={!!hasNextPage}
           loader={
             isFetchingNextPage && (
-              <Box textAlign="center" py={2}>
+              <Box textAlign="center" py={3}>
                 <CircularProgress />
               </Box>
             )

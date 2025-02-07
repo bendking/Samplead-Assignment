@@ -1,6 +1,7 @@
+"use client";
+
 import { Pokemon } from "../types/pokemon";
 import {
-  Box,
   Card,
   CardContent,
   Typography,
