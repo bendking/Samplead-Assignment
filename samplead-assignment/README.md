@@ -1,36 +1,27 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
-
-## Getting Started
-
-First, run the development server:
+## Loading the app
 
 ```bash
+npm i
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## External Resources Used
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+ChatGPT
+Stack Overflow
 
-## Learn More
+## Libraries Used
 
-To learn more about Next.js, take a look at the following resources:
+MaterialUI
+React-Query
+Axios
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Design Choices
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+I decided to use an infinite scroll list of cards instead of a table because I thought that UX-wise it would be more pleasant and user-friendly due to the usage of the pokemon's images.
 
-## Deploy on Vercel
+Unfortunately, the API does not have a free text search function so the only way to look for a pokemon is scrolling until you see it. An alternative woudld have been to load all of the pokemons at the start, but that is bad practice for large data-sets.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Of course, I could have also implemented a psuedo-search where the user has to input the exact name of a pokemon and have its dialog loaded up, but I don't think that would make for particualrly good UX.

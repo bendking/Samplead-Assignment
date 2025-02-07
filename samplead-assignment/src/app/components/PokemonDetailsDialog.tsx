@@ -12,13 +12,15 @@ import {
   Box,
   Stack,
   Avatar,
+  IconButton,
 } from "@mui/material";
-// Import Grid2 from MUI – this is the recommended replacement for the deprecated Grid component.
-import Grid from "@mui/material/Grid2";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 import { usePokemonDetails } from "@/app/hooks/usePokemonDetails";
 import { getPokemonImageUrl } from "../utils/pokemonUtils";
 import { Pokemon } from "../types/pokemon";
+import { useFavoritePokemons } from "../context/FavoritePokemonsContext";
 
 interface PokemonDetailsDialogProps {
   open: boolean;
@@ -35,6 +37,10 @@ export default function PokemonDetailsDialog({
   const { data, isLoading, isError } = usePokemonDetails(pokemonName, open);
   const pokemonImageUrl = getPokemonImageUrl(pokemon);
 
+  // Get the shared favorites state and toggle function from the context.
+  const { favorites, toggleFavorite } = useFavoritePokemons();
+  const isFavorited = Boolean(favorites[pokemonName]);
+
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
       <DialogTitle
@@ -42,10 +48,23 @@ export default function PokemonDetailsDialog({
           textTransform: "capitalize",
           textAlign: "center",
           fontWeight: "bold",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
         }}
       >
         {pokemonName}
+        <IconButton
+          onClick={(e) => {
+            e.stopPropagation(); // Prevent the dialog from closing when clicking the icon.
+            toggleFavorite(pokemonName);
+          }}
+          color="error"
+        >
+          {isFavorited ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+        </IconButton>
       </DialogTitle>
+
       <DialogContent dividers>
         {isLoading && (
           <Box textAlign="center" py={3}>
@@ -75,38 +94,32 @@ export default function PokemonDetailsDialog({
               />
             </Box>
 
-            {/* Grid layout for key stats using Grid2 */}
-            <Grid container spacing={2} justifyContent="center">
-              <Grid xs={4}>
-                <Box display="flex" flexDirection="column" alignItems="center">
-                  <Typography variant="subtitle2" color="text.secondary">
-                    Species
-                  </Typography>
-                  <Typography
-                    variant="body1"
-                    sx={{ textTransform: "capitalize" }}
-                  >
-                    {data.species.name}
-                  </Typography>
-                </Box>
-              </Grid>
-              <Grid xs={4}>
-                <Box display="flex" flexDirection="column" alignItems="center">
-                  <Typography variant="subtitle2" color="text.secondary">
-                    Weight
-                  </Typography>
-                  <Typography variant="body1">{data.weight}</Typography>
-                </Box>
-              </Grid>
-              <Grid xs={4}>
-                <Box display="flex" flexDirection="column" alignItems="center">
-                  <Typography variant="subtitle2" color="text.secondary">
-                    Height
-                  </Typography>
-                  <Typography variant="body1">{data.height}</Typography>
-                </Box>
-              </Grid>
-            </Grid>
+            {/* Key stats displayed in a horizontal Stack */}
+            <Stack direction="row" spacing={2} justifyContent="center">
+              <Box flex={1} textAlign="center">
+                <Typography variant="subtitle2" color="text.secondary">
+                  Species
+                </Typography>
+                <Typography
+                  variant="body1"
+                  sx={{ textTransform: "capitalize" }}
+                >
+                  {data.species.name}
+                </Typography>
+              </Box>
+              <Box flex={1} textAlign="center">
+                <Typography variant="subtitle2" color="text.secondary">
+                  Weight
+                </Typography>
+                <Typography variant="body1">{data.weight}</Typography>
+              </Box>
+              <Box flex={1} textAlign="center">
+                <Typography variant="subtitle2" color="text.secondary">
+                  Height
+                </Typography>
+                <Typography variant="body1">{data.height}</Typography>
+              </Box>
+            </Stack>
 
             {/* Display Forms */}
             <Box mt={3}>
@@ -160,6 +173,7 @@ export default function PokemonDetailsDialog({
           </Box>
         )}
       </DialogContent>
+
       <DialogActions>
         <Button onClick={onClose} variant="contained">
           Close

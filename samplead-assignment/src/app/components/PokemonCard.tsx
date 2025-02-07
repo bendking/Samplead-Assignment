@@ -3,27 +3,34 @@ import {
   Box,
   Card,
   CardContent,
-  CircularProgress,
   Typography,
   Avatar,
   Stack,
+  IconButton,
 } from "@mui/material";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { getPokemonId, getPokemonImageUrl } from "../utils/pokemonUtils";
+import { useFavoritePokemons } from "../context/FavoritePokemonsContext";
 
-interface PokemonCard {
+interface PokemonCardProps {
   pokemon: Pokemon;
   onClick: () => void;
 }
 
-export const PokemonCard = ({ pokemon, onClick }: PokemonCard) => {
+export const PokemonCard = ({ pokemon, onClick }: PokemonCardProps) => {
   const pokemonId = getPokemonId(pokemon.url);
   const pokemonImageUrl = getPokemonImageUrl(pokemon);
+
+  const { favorites, toggleFavorite } = useFavoritePokemons();
+  const isFavorited = Boolean(favorites[pokemon.name]);
 
   return (
     <Card
       key={pokemonId}
       onClick={onClick}
       sx={{
+        position: "relative",
         cursor: "pointer",
         textAlign: "center",
         p: 2,
@@ -37,18 +44,28 @@ export const PokemonCard = ({ pokemon, onClick }: PokemonCard) => {
         },
       }}
     >
-      <CardContent
-        sx={{
-          padding: "4px !important",
+      <IconButton
+        onClick={(e) => {
+          e.stopPropagation();
+          toggleFavorite(pokemon.name);
         }}
+        sx={{
+          position: "absolute",
+          top: 8,
+          right: 8,
+        }}
+        color="error"
       >
+        {isFavorited ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+      </IconButton>
+
+      <CardContent sx={{ padding: "4px !important" }}>
         <Stack alignItems="center">
           <Avatar
             alt={pokemon.name}
             src={pokemonImageUrl}
             sx={{ width: 96, height: 96, mx: "auto", mb: 1 }}
           />
-
           <Typography
             variant="h5"
             sx={{
@@ -58,13 +75,6 @@ export const PokemonCard = ({ pokemon, onClick }: PokemonCard) => {
           >
             {pokemon.name}
           </Typography>
-
-          {/* <Stack direction="row" gap={1}>
-            <Typography variant="body1" sx={{ fontWeight: "medium" }}>
-              ID
-            </Typography>
-            <Typography>{pokemonId}</Typography>
-          </Stack> */}
         </Stack>
       </CardContent>
     </Card>
