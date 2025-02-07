@@ -1,37 +1,21 @@
 "use client";
 
+import React, { useState } from "react";
 import { usePokemonScroll } from "@/app/hooks/usePokemonScroll";
 import { Box, CircularProgress, Typography } from "@mui/material";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Pokemon } from "../types/pokemon";
 import { PokemonCard } from "./PokemonCard";
-
-// Utility function to extract Pokémon ID from the URL
+import PokemonDetailsDialog from "./PokemonDetailsDialog";
 
 const PokemonList = () => {
-  const {
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    isError,
-    error,
-  } = usePokemonScroll();
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    usePokemonScroll();
 
-  if (isError) {
-    console.error("Error with Pokemon API:", error);
-
-    return (
-      <Box textAlign="center" py={4}>
-        <Typography variant="h6" color="error">
-          Failed to load Pokémon. Please try again later.
-        </Typography>
-      </Box>
-    );
-  }
+  const [selectedPokemon, setSelectedPokemon] = useState<Pokemon | null>(null);
 
   // @ts-ignore
-  // TOOD: Fix if there's time
+  // TODO: Fix if there's time
   const pokemons: Pokemon[] = data?.pages.flatMap((page) => page.results) ?? [];
 
   return (
@@ -42,7 +26,6 @@ const PokemonList = () => {
         py: 4,
       }}
     >
-      {/* Centered, semi-transparent container */}
       <Box
         sx={{
           maxWidth: 1000,
@@ -53,7 +36,6 @@ const PokemonList = () => {
           boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
         }}
       >
-        {/* Title */}
         <Typography
           variant="h4"
           textAlign="center"
@@ -63,7 +45,6 @@ const PokemonList = () => {
           Pokédex
         </Typography>
 
-        {/* Infinite Scroll Container */}
         <InfiniteScroll
           dataLength={pokemons.length}
           next={fetchNextPage}
@@ -76,7 +57,6 @@ const PokemonList = () => {
             )
           }
         >
-          {/* Pokémon Cards Grid using CSS Grid */}
           <Box
             sx={{
               display: "grid",
@@ -84,12 +64,26 @@ const PokemonList = () => {
               gap: 2,
             }}
           >
-            {pokemons.map((pokemon) => {
-              return <PokemonCard pokemon={pokemon} key={pokemon.name} />;
-            })}
+            {pokemons.map((pokemon) => (
+              <PokemonCard
+                key={pokemon.name}
+                pokemon={pokemon}
+                // When a card is clicked, update the state with the selected Pokémon.
+                onClick={() => setSelectedPokemon(pokemon)}
+              />
+            ))}
           </Box>
         </InfiniteScroll>
       </Box>
+
+      {/* Render the dialog if a Pokémon has been selected */}
+      {selectedPokemon && (
+        <PokemonDetailsDialog
+          open={!!selectedPokemon}
+          onClose={() => setSelectedPokemon(null)}
+          pokemon={selectedPokemon}
+        />
+      )}
     </Box>
   );
 };

@@ -8,21 +8,23 @@ import {
   Avatar,
   Stack,
 } from "@mui/material";
+import { getPokemonId, getPokemonImageUrl } from "../utils/pokemonUtils";
 
 interface PokemonCard {
   pokemon: Pokemon;
+  onClick: () => void;
 }
 
-export const PokemonCard = ({ pokemon }: PokemonCard) => {
-  const getPokemonId = (url: string) => url.split("/").filter(Boolean).pop();
-
+export const PokemonCard = ({ pokemon, onClick }: PokemonCard) => {
   const pokemonId = getPokemonId(pokemon.url);
-  const pokemonImageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemonId}.png`;
+  const pokemonImageUrl = getPokemonImageUrl(pokemon);
 
   return (
     <Card
       key={pokemonId}
+      onClick={onClick}
       sx={{
+        cursor: "pointer",
         textAlign: "center",
         p: 2,
         borderRadius: 2,
@@ -35,13 +37,18 @@ export const PokemonCard = ({ pokemon }: PokemonCard) => {
         },
       }}
     >
-      <CardContent>
+      <CardContent
+        sx={{
+          padding: "4px !important",
+        }}
+      >
         <Stack alignItems="center">
           <Avatar
             alt={pokemon.name}
             src={pokemonImageUrl}
             sx={{ width: 96, height: 96, mx: "auto", mb: 1 }}
           />
+
           <Typography
             variant="h5"
             sx={{
@@ -51,12 +58,13 @@ export const PokemonCard = ({ pokemon }: PokemonCard) => {
           >
             {pokemon.name}
           </Typography>
-          <Stack direction="row" gap={1}>
+
+          {/* <Stack direction="row" gap={1}>
             <Typography variant="body1" sx={{ fontWeight: "medium" }}>
               ID
             </Typography>
             <Typography>{pokemonId}</Typography>
-          </Stack>
+          </Stack> */}
         </Stack>
       </CardContent>
     </Card>
